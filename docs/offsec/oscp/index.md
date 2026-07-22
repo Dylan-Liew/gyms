@@ -1,3 +1,460 @@
-# OSCP
+# OSCP+
 
-No entries yet.
+## Exam format
+
+- 23 hours and 45 minutes in a proctored private-VPN environment, followed by 24 hours to submit the report.
+- 100 points total; 70 points are required to pass.
+- Three stand-alone machines are worth 20 points each: 10 for initial access and 10 for privilege escalation.
+- One three-machine Active Directory set is worth 40 points. The provided domain credentials simulate an initial breach.
+- Submit a step-by-step professional report as a PDF inside a non-password-protected `.7z` archive (200 MB maximum). Include flags in the control panel and interactive-shell screenshots.
+- Follow the current tool restrictions and reporting rules in OffSec's [OSCP+ Exam Guide](https://help.offsec.com/hc/en-us/articles/360040165632-OSCP-Exam-Guide).
+
+## Content
+
+- 2. Penetration Testing with Kali Linux: General Course Information
+- 3. Introduction To Cybersecurity
+  - 3.1. The Practice of Cybersecurity
+    - 3.1.1. Challenges in Cybersecurity
+    - 3.1.2. A Word on Mindsets
+    - 3.1.3. On Emulating the Minds of our Opponents
+  - 3.2. Threats and Threat Actors
+    - 3.2.1. The Evolution of Attack and Defense
+    - 3.2.2. Risks, Threats, Vulnerabilities, and Exploits
+    - 3.2.3. Threat Actor Classifications
+    - 3.2.4. Recent Cybersecurity Breaches
+  - 3.3. The CIA Triad
+    - 3.3.1. Confidentiality
+    - 3.3.2. Integrity
+    - 3.3.3. Availability
+    - 3.3.4. Balancing the Triad with Organizational Objectives
+  - 3.4. Security Principles, Controls, and Strategies
+    - 3.4.1. Security Principles
+    - 3.4.2. Security Controls and Strategies
+    - 3.4.3. Security Models
+    - 3.4.4. Shift-Left Security
+    - 3.4.5. Administrative Segmentation
+    - 3.4.6. Threat Modeling and Threat Intelligence
+    - 3.4.7. Table-Top Tactics
+    - 3.4.8. Continuous Patching and Supply Chain Validation
+    - 3.4.9. Backups
+    - 3.4.10. Encryption
+    - 3.4.11. Logging and Chaos Testing
+  - 3.5. Cybersecurity Laws, Regulations, Standards, and Frameworks
+    - 3.5.1. Laws and Regulations
+    - 3.5.2. Standards and Frameworks
+    - 3.5.3. Anatomy of Cyber
+  - 3.6. Career Opportunities in Cybersecurity
+    - 3.6.1. Cybersecurity Career Opportunities: Attack
+    - 3.6.2. Cybersecurity Career Opportunities: Defend
+    - 3.6.3. Cybersecurity Career Opportunities: Build
+    - 3.6.4. Additional Roles
+  - 3.7. What's Next?
+- 4. Effective Learning Strategies
+    - 4.1.1. What we know and what we don't
+    - 4.1.2. Memory mechanisms and dual coding
+    - 4.1.3. The forgetting curve and cognitive load
+    - 4.2.1. Digital vs. print materials
+    - 4.2.2. Expecting the unexpected
+    - 4.2.3. The challenges of remote and asynchronous learning
+    - 4.3.1. The demonstration method
+    - 4.3.2. Learning by doing
+    - 4.3.3. Facing difficulty
+    - 4.3.4. Contextual learning and interleaving
+  - 4.4. Case Study: chmod -x chmod
+    - 4.4.1. What is executable permission?
+    - 4.4.2. Going deeper: encountering a strange problem
+    - 4.4.3. One potential solution
+    - 4.4.4. Analyzing this approach
+    - 4.5.1. Cornell notes
+    - 4.5.2. Retrieval practice
+    - 4.5.3. Spaced practice
+    - 4.5.4. The SQ3R method
+    - 4.5.5. The Feynman technique
+    - 4.6.1. Dealing with stress
+    - 4.6.2. Knowing when you're ready
+    - 4.6.3. Practical advice for exam takers
+    - 4.7.1. Creating a long-term strategy
+    - 4.7.2. Use time allotment strategies
+    - 4.7.3. Narrowing our focus
+    - 4.7.4. Pick a strategy
+    - 4.7.5. Find a community of co-learners
+    - 4.7.6. Study your own studies
+- 5. Report Writing for Penetration Testers
+  - 5.1. Understanding Note-Taking
+    - 5.1.1. Penetration Testing Deliverables
+    - 5.1.2. Note Portability
+    - 5.1.3. The General Structure of Penetration Testing Notes
+    - 5.1.4. Choosing the Right Note-Taking Tool
+    - 5.1.5. Taking Screenshots
+    - 5.1.6. Tools to Take Screenshots
+  - 5.2. Writing Effective Technical Penetration Testing Reports
+    - 5.2.1. Purpose of a Technical Report
+    - 5.2.2. Tailor the Content
+    - 5.2.3. Executive Summary
+    - 5.2.4. Testing Environment Considerations
+    - 5.2.5. Technical Summary
+    - 5.2.6. Technical Findings and Recommendation
+    - 5.2.7. Appendices, Further Information, and References
+- 6. Information Gathering
+  - 6.1. The Penetration Testing Lifecycle
+  - 6.2. Passive Information Gathering
+    - 6.2.1. Whois enumeration
+    - 6.2.2. Google hacking
+    - 6.2.3. Netcraft
+    - 6.2.4. Open-source code
+    - 6.2.5. Shodan
+    - 6.2.6. Security headers and SSL/TLS
+  - 6.3. LLM-powered passive information gathering
+    - 6.3.1. Passive LLM-aided enumeration
+  - 6.4. Active Information Gathering
+    - 6.4.1. DNS enumeration
+    - 6.4.2. TCP/UDP port scanning theory
+    - 6.4.3. Port scanning with Nmap
+    - 6.4.4. SMB enumeration
+    - 6.4.5. SMTP enumeration
+    - 6.4.6. SNMP enumeration
+  - 6.5. LLM-powered active information gathering
+    - 6.5.1. Active LLM-aided enumeration
+  - 6.6. Wrapping up
+- 7. Vulnerability Scanning
+  - 7.1. Vulnerability scanning theory
+    - 7.1.1. How vulnerability scanners work
+    - 7.1.2. Types of vulnerability scans
+    - 7.1.3. Things to consider in a vulnerability scan
+  - 7.2. Vulnerability scanning with Nessus
+    - 7.2.1. Installing Nessus
+    - 7.2.2. Nessus components
+    - 7.2.3. Performing a vulnerability scan
+    - 7.2.4. Analyzing the results
+    - 7.2.5. Performing an authenticated vulnerability scan
+    - 7.2.6. Working with Nessus plugins
+  - 7.3. Vulnerability scanning with Nmap
+    - 7.3.1. NSE vulnerability scripts
+    - 7.3.2. Working with NSE scripts
+  - 7.4. Wrapping up
+- 8. Introduction to Web Application Attacks
+  - 8.1. Web Application Assessment Methodology
+  - 8.2. Web Application Assessment Tools
+    - 8.2.1. Fingerprinting Web Servers with Nmap
+    - 8.2.2. Technology Stack Identification with Wappalyzer
+    - 8.2.3. Directory Brute Force with Gobuster
+    - 8.2.4. Security Testing with Burp Suite
+  - 8.3. Web Application Enumeration
+    - 8.3.1. Debugging Page Content
+    - 8.3.2. Inspecting HTTP Response Headers and Sitemaps
+    - 8.3.3. Enumerating and Abusing APIs
+  - 8.4. Cross-Site Scripting
+    - 8.4.1. Stored vs Reflected XSS Theory
+    - 8.4.2. JavaScript Refresher
+    - 8.4.3. Identifying XSS Vulnerabilities
+    - 8.4.4. Basic XSS
+    - 8.4.5. Privilege Escalation via XSS
+  - 8.5. Wrapping Up
+- 9. Common Web Application Attacks
+  - 9.1. Directory Traversal
+    - 9.1.1. Absolute vs relative paths
+    - 9.1.2. Identifying and exploiting directory traversals
+    - 9.1.3. Encoding special characters
+  - 9.2. File Inclusion Vulnerabilities
+    - 9.2.1. Local file inclusion (LFI)
+    - 9.2.2. PHP wrappers
+    - 9.2.3. Remote file inclusion (RFI)
+  - 9.3. File Upload Vulnerabilities
+    - 9.3.1. Using executable files
+    - 9.3.2. Using non-executable files
+  - 9.4. Command Injection
+    - 9.4.1. OS command injection
+  - 9.5. Wrapping up
+- 10. SQL Injection Attacks
+  - 10.1. SQL theory and databases
+    - 10.1.1. SQL theory refresher
+    - 10.1.2. DB types and characteristics
+  - 10.2. Manual SQL exploitation
+    - 10.2.1. Identifying SQLi via error-based payloads
+    - 10.2.2. UNION-based payloads
+    - 10.2.3. Blind SQL injections
+  - 10.3. Manual and automated code execution
+    - 10.3.1. Manual code execution
+    - 10.3.2. Automating the attack
+  - 10.4. Wrapping up
+  - 11.1. Phishing 101
+    - 11.1.1. Email phishing
+    - 11.1.2. Smishing, vishing, and chatting
+    - 11.1.3. Enhancing phishing through social engineering
+    - 11.1.4. LLMs, generative AI and deepfakes
+  - 11.2. Payloads, misdirection, and speedbumps
+    - 11.2.1. Understanding the role of inbound email filters
+    - 11.2.2. Identifying risks of malicious Office macros
+    - 11.2.3. Assess threats from malicious files
+    - 11.2.4. Recognize malicious links
+    - 11.2.5. Differentiate credential phishing and multi-factor authentication (MFA)
+  - 11.3. Hands-on credential phishing
+    - 11.3.1. Creating a Zoom credential phishing pretext
+    - 11.3.2. Cloning a legitimate website
+    - 11.3.3. Cleaning up the clone
+    - 11.3.4. Capturing credentials
+    - 11.3.5. Crafting the phishing email
+  - 11.4. Wrapping up
+- 12. Client-side Attacks
+  - 12.1. Target reconnaissance
+    - 12.1.1. Information gathering
+    - 12.1.2. Client fingerprinting
+  - 12.2. Exploiting Microsoft Office
+    - 12.2.1. Preparing the attack
+    - 12.2.2. Installing Microsoft Office
+    - 12.2.3. Leveraging Microsoft Word macros
+  - 12.3. Abusing Windows library files
+    - 12.3.1. Obtaining code execution via Windows library files
+  - 12.4. Wrapping up
+- 13. Locating Public Exploits
+  - 13.1. Getting started
+    - 13.1.1. A word of caution
+  - 13.2. Online exploit resources
+    - 13.2.1. The Exploit Database
+    - 13.2.2. Packet Storm
+    - 13.2.3. GitHub
+    - 13.2.4. Google search operators
+  - 13.3. Offline exploit resources
+    - 13.3.1. Exploit frameworks
+    - 13.3.2. SearchSploit
+    - 13.3.3. Nmap NSE scripts
+  - 13.4. Exploiting a target
+    - 13.4.1. Putting it together
+  - 13.5. Wrapping up
+- 14. Fixing Exploits
+  - 14.1. Fixing Memory Corruption Exploits
+    - 14.1.1. Buffer Overflow in a Nutshell
+    - 14.1.2. Importing and Examining the Exploit
+    - 14.1.3. Cross-Compiling Exploit Code
+    - 14.1.4. Fixing the Exploit
+    - 14.1.5. Changing the Overflow Buffer
+  - 14.2. Fixing Web Exploits
+    - 14.2.1. Considerations and Overview
+    - 14.2.2. Selecting the Vulnerability and Fixing the Code
+    - 14.2.3. Troubleshooting the "index out of range" Error
+  - 14.3. Wrapping Up
+- 15. Antivirus Evasion
+  - 15.1. Antivirus software key components and operations
+    - 15.1.1. Known vs unknown threats
+    - 15.1.2. AV engines and components
+    - 15.1.3. Detection methods
+  - 15.2. Bypassing antivirus detections
+    - 15.2.1. On-disk evasion
+    - 15.2.2. In-memory evasion
+  - 15.3. AV evasion in practice
+    - 15.3.1. Testing for AV evasion
+    - 15.3.2. Evading AV with thread injection
+    - 15.3.3. Automating the process
+  - 15.4. Wrapping up
+- 16. Password Attacks
+  - 16.1. Attacking network services logins
+    - 16.1.1. SSH
+    - 16.1.2. RDP
+    - 16.1.3. HTTP POST login form
+  - 16.2. Password cracking fundamentals
+    - 16.2.1. Introduction to encryption, hashes and cracking
+    - 16.2.2. Mutating wordlists
+    - 16.2.3. Cracking methodology
+    - 16.2.4. Password manager
+    - 16.2.5. SSH private key passphrase
+  - 16.3. Working with password hashes
+    - 16.3.1. Cracking NTLM
+    - 16.3.2. Passing NTLM
+    - 16.3.3. Cracking Net-NTLMv2
+    - 16.3.4. Relaying Net-NTLMv2
+    - 16.3.5. Windows Credential Guard
+  - 16.4. Wrapping up
+- 17. Windows Privilege Escalation
+  - 17.1. Enumerating Windows
+    - 17.1.1. Understanding Windows Privileges and Access Control Mechanisms
+    - 17.1.2. Situational Awareness
+    - 17.1.3. Hidden in Plain View
+    - 17.1.4. Information Goldmine PowerShell
+    - 17.1.5. Automated Enumeration
+  - 17.2. Leveraging Windows Services
+    - 17.2.1. Service Binary Hijacking
+    - 17.2.2. DLL Hijacking
+    - 17.2.3. Unquoted Service Paths
+  - 17.3. Abusing Other Windows Components
+    - 17.3.1. Scheduled Tasks
+    - 17.3.2. Using Exploits
+  - 17.4. Wrapping Up
+- 18. Linux Privilege Escalation
+  - 18.1. Enumerating Linux
+    - 18.1.1. Understanding files and users privileges on Linux
+    - 18.1.2. Manual enumeration
+    - 18.1.3. Automated enumeration
+  - 18.2. Exposed confidential information
+    - 18.2.1. Inspecting user trails
+    - 18.2.2. Inspecting service footprints
+  - 18.3. Insecure file permissions
+    - 18.3.1. Abusing cron jobs
+    - 18.3.2. Abusing password authentication
+  - 18.4. Insecure system components
+    - 18.4.1. Abusing setuid binaries and capabilities
+    - 18.4.2. Abusing sudo
+    - 18.4.3. Exploiting kernel vulnerabilities
+  - 18.5. Wrapping up
+- 19. Port Redirection and SSH Tunneling
+  - 19.1. Why Port Redirection and Tunneling?
+  - 19.2. Port Forwarding with Linux Tools
+    - 19.2.1. A Simple Port Forwarding Scenario
+    - 19.2.2. Setting Up the Lab Environment
+    - 19.2.3. Port Forwarding with Socat
+  - 19.3. SSH Tunneling
+    - 19.3.1. SSH Local Port Forwarding
+    - 19.3.2. SSH Dynamic Port Forwarding
+    - 19.3.3. SSH Remote Port Forwarding
+    - 19.3.4. SSH Remote Dynamic Port Forwarding
+    - 19.3.5. Using sshuttle
+  - 19.4. Port Forwarding with Windows Tools
+    - 19.4.1. ssh.exe
+    - 19.4.2. Plink
+    - 19.4.3. Netsh
+  - 19.5. Wrapping Up
+- 20. Tunneling Through Deep Packet Inspection
+  - 20.1. HTTP Tunneling Theory and Practice
+    - 20.1.1. HTTP Tunneling Fundamentals
+    - 20.1.2. HTTP Tunneling with Chisel
+  - 20.2. DNS Tunneling Theory and Practice
+    - 20.2.1. DNS Tunneling Fundamentals
+    - 20.2.2. DNS Tunneling with dnscat2
+  - 20.3. Wrapping Up
+- 21. The Metasploit Framework
+  - 21.1. Getting Familiar with Metasploit
+    - 21.1.1. Setup and Work with MSF
+    - 21.1.2. Auxiliary Modules
+    - 21.1.3. Exploit Modules
+  - 21.2. Using Metasploit Payloads
+    - 21.2.1. Staged vs Non-Staged Payloads
+    - 21.2.2. Meterpreter Payload
+    - 21.2.3. Executable Payloads
+  - 21.3. Performing Post-Exploitation with Metasploit
+    - 21.3.1. Core Meterpreter Post-Exploitation Features
+    - 21.3.2. Post-Exploitation Modules
+    - 21.3.3. Pivoting with Metasploit
+  - 21.4. Automating Metasploit
+    - 21.4.1. Resource Scripts
+  - 21.5. Wrapping Up
+- 22. Active Directory Introduction and Enumeration
+  - 22.1. Active Directory - introduction
+    - 22.1.1. Enumeration - defining our goals
+  - 22.2. Active Directory - manual enumeration
+    - 22.2.1. Active Directory - enumeration using legacy Windows tools
+    - 22.2.2. Enumerating Active Directory using PowerShell and .NET classes
+    - 22.2.3. Adding search functionality to our script
+    - 22.2.4. AD enumeration with PowerView
+  - 22.3. Manual enumeration - expanding our repertoire
+    - 22.3.1. Enumerating operating systems
+    - 22.3.2. Getting an overview - permissions and logged on users
+    - 22.3.3. Enumeration through service principal names
+    - 22.3.4. Enumerating object permissions
+    - 22.3.5. Enumerating domain shares
+  - 22.4. Active Directory - automated enumeration
+    - 22.4.1. Collecting data with SharpHound
+    - 22.4.2. Analysing data using BloodHound
+  - 22.5. Wrapping up
+- 23. Attacking Active Directory Authentication
+  - 23.1. Understanding Active Directory Authentication
+    - 23.1.1. NTLM Authentication
+    - 23.1.2. Kerberos Authentication
+    - 23.1.3. Cached AD Credentials
+  - 23.2. Performing Attacks on Active Directory Authentication
+    - 23.2.1. Password Attacks
+    - 23.2.2. AS-REP Roasting
+    - 23.2.3. Kerberoasting
+    - 23.2.4. Silver Tickets
+    - 23.2.5. Domain Controller Synchronization
+  - 23.3. Wrapping Up
+- 24. Lateral Movement in Active Directory
+  - 24.1. Active Directory lateral movement techniques
+    - 24.1.1. WMI and WinRM
+    - 24.1.2. PsExec
+    - 24.1.3. Pass the hash
+    - 24.1.4. Overpass the hash
+    - 24.1.5. Pass the ticket
+    - 24.1.6. DCOM
+  - 24.2. Active Directory persistence
+    - 24.2.1. Golden ticket
+    - 24.2.2. Shadow copies
+  - 24.3. Wrapping up
+- 25. Enumerating AWS Cloud Infrastructure
+  - 25.1. About the Public Cloud Labs
+  - 25.2. Reconnaissance of Cloud Resources on the Internet
+    - 25.2.1. Accessing the Lab
+    - 25.2.2. Domain and Subdomain Reconnaissance
+    - 25.2.3. Service-specific Domains
+  - 25.3. Reconnaissance via Cloud Service Provider's API
+    - 25.3.1. Preparing the Lab - Configure AWS CLI
+    - 25.3.2. Publicly Shared Resources
+    - 25.3.3. Obtaining Account IDs from S3 Buckets
+    - 25.3.4. Enumerating IAM Users in Other Accounts
+  - 25.4. Initial IAM Reconnaissance
+    - 25.4.1. Accessing the Lab
+    - 25.4.2. Examining Compromised Credentials
+    - 25.4.3. Scoping IAM permissions
+  - 25.5. IAM Resources Enumeration
+    - 25.5.1. Choosing Between a Manual or Automated Enumeration Approach
+    - 25.5.2. Enumerating IAM Resources
+    - 25.5.3. Processing API Response data with JMESPath
+    - 25.5.4. Running Automated Enumeration with Pacu
+    - 25.5.5. Extracting Insights from Enumeration Data
+  - 25.6. Wrapping Up
+- 26. Attacking AWS Cloud Infrastructure
+  - 26.1. About the Public Cloud Labs
+  - 26.2. Leaked Secrets to Poisoned Pipeline - Lab Design
+    - 26.2.1. Accessing the Labs
+  - 26.3. Enumeration
+    - 26.3.1. Enumerating Jenkins
+    - 26.3.2. Enumerating the Git Server
+    - 26.3.3. Enumerating the Application
+  - 26.4. Discovering Secrets
+    - 26.4.1. Downloading the Bucket
+    - 26.4.2. Searching for Secrets in Git
+  - 26.5. Poisoning the Pipeline
+    - 26.5.1. Enumerating the Repositories
+    - 26.5.2. Modifying the Pipeline
+    - 26.5.3. Enumerating the Builder
+  - 26.6. Compromising the Environment via Backdoor Account
+    - 26.6.1. Discovering What We Have Access To
+    - 26.6.2. Creating a Backdoor Account
+  - 26.7. Dependency Chain Abuse
+    - 26.7.1. Accessing the Labs
+  - 26.8. Information Gathering
+    - 26.8.1. Enumerating the Services
+    - 26.8.2. Conducting Open Source Intelligence
+  - 26.9. Dependency Chain Attack
+    - 26.9.1. Understanding the Attack
+    - 26.9.2. Creating Our Malicious Package
+    - 26.9.3. Command Execution During Install
+    - 26.9.4. Command Execution During Runtime
+    - 26.9.5. Adding a Payload
+    - 26.9.6. Publishing Our Malicious Package
+  - 26.10. Compromising the Environment
+    - 26.10.1. Enumerating the Production Container
+    - 26.10.2. Scanning the Network
+    - 26.10.3. Loading Jenkins
+    - 26.10.4. Exploiting Jenkins
+    - 26.10.5. Enumerating with Discovered Credentials
+    - 26.10.6. Discovering the State File and Escalating to Admin
+  - 26.11. Wrapping Up
+- 27. Assembling the Pieces
+  - 27.1. Enumerating the public network
+    - 27.1.1. MAILSRV1
+    - 27.1.2. WEBSRV1
+  - 27.2. Attacking a public machine
+    - 27.2.1. Initial foothold
+    - 27.2.2. A link to the past
+  - 27.3. Gaining access to the internal network
+    - 27.3.1. Domain credentials
+    - 27.3.2. Phishing for access
+  - 27.4. Enumerating the internal network
+    - 27.4.1. Situational awareness
+    - 27.4.2. Services and sessions
+  - 27.5. Attacking an internal web application
+    - 27.5.1. Speak Kerberoast and enter
+    - 27.5.2. Abuse a WordPress plugin for a relay attack
+  - 27.6. Gaining access to the domain controller
+    - 27.6.1. Cached credentials
+    - 27.6.2. Lateral movement
+  - 27.7. Wrapping up

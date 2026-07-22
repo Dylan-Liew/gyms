@@ -1,3 +1,139 @@
 # OSWE
 
-No entries yet.
+## Exam format
+
+- 47 hours and 45 minutes in a proctored private-VPN environment, followed by 24 hours to submit the report.
+- Several target machines; 100 points total and 85 points are required to pass.
+- For each target, provide one non-interactive, functional PoC script that exploits its required vulnerability chain. Include custom exploit source code in the report.
+- The exam allows 50 machine reverts, with one reset of that limit.
+- Source-code analysers, automatic exploitation tools, mass vulnerability scanners, AI chatbots, and remote mounting/downloading of application source are prohibited. Review the complete restrictions before sitting the exam.
+- Submit one PDF report inside a non-password-protected `.7z` archive (200 MB maximum); include all scripts/PoCs as text in the PDF.
+- Follow the current rules in OffSec's [OSWE Exam Guide](https://help.offsec.com/hc/en-us/articles/360046869951-WEB-300-Advanced-Web-Attacks-and-Exploitation-OSWE-Exam-Guide).
+
+## Content
+
+- 1. Introduction
+  - 1.1. About the AWAE Course
+    - 1.1.1. OSWE Exam Attempt
+  - 1.2. Our Approach
+  - 1.3. Obtaining Support
+  - 1.4. Offensive Security AWAE Labs
+  - 1.5. Reporting
+  - 1.6. Backups
+  - 1.7. About the OSWE Exam
+  - 1.8. Wrapping Up
+- 2. Tools & Methodologies
+  - 2.1. Web Traffic Inspection
+  - 2.2. Interacting with Web Listeners Using Python
+  - 2.3. Source Code Recovery
+  - 2.4. Source Code Analysis Methodology
+  - 2.5. Debugging
+  - 2.6. Wrapping Up
+- 3. ManageEngine Applications Manager AMUserResourcesSyncServlet SQL Injection RCE
+  - 3.1. Getting Started
+  - 3.2. Vulnerability Discovery
+  - 3.3. How Houdini Escapes
+  - 3.4. Blind Bats
+  - 3.5. Accessing the File System
+  - 3.6. PostgreSQL Extensions
+  - 3.7. UDF Reverse Shell
+  - 3.8. More Shells!!!
+  - 3.9. Summary
+- 4. DotNetNuke Cookie Deserialization RCE
+  - 4.1. Serialization Basics
+  - 4.2. DotNetNuke Vulnerability Analysis
+  - 4.3. Payload Options
+  - 4.4. Putting It All Together
+  - 4.5. Wrapping Up
+- 5. ERPNext Authentication Bypass and Server-Side Template Injection
+  - 5.1. Getting Started
+  - 5.2. Introduction to MVC, Metadata-Driven Architecture, and HTTP Routing
+  - 5.3. Authentication Bypass Discovery
+  - 5.4. Authentication Bypass Exploitation
+  - 5.5. SSTI Vulnerability Discovery
+  - 5.6. SSTI Vulnerability Exploitation
+  - 5.7. Wrapping Up
+- 6. openCRX Authentication Bypass and Remote Code Execution
+  - 6.1. Getting Started
+  - 6.2. Password Reset Vulnerability Discovery
+  - 6.3. XML External Entity Vulnerability Discovery
+  - 6.4. Remote Code Execution
+  - 6.5. Wrapping Up
+- 7. openITCOCKPIT XSS and OS Command Injection — Black-Box
+  - 7.1. Getting Started
+  - 7.2. Black-Box Testing in openITCOCKPIT
+  - 7.3. Application Discovery
+  - 7.4. Introduction to DOM-Based XSS
+  - 7.5. XSS Hunting
+  - 7.6. Advanced XSS Exploitation
+  - 7.7. RCE Hunting
+  - 7.8. Wrapping Up
+- 8. Concord Authentication Bypass to RCE
+  - 8.1. Getting Started
+  - 8.2. Authentication Bypass: Round One — CSRF and CORS
+  - 8.3. Authentication Bypass: Round Two — Insecure Defaults
+  - 8.4. Wrapping Up
+- 9. Server-Side Request Forgery
+  - 9.1. Getting Started
+  - 9.2. Introduction to Microservices
+  - 9.3. API Discovery via Verb Tampering
+  - 9.4. Introduction to Server-Side Request Forgery
+  - 9.5. Render API Authentication Bypass
+  - 9.6. Exploiting Headless Chrome
+  - 9.7. Remote Code Execution
+  - 9.8. Wrapping Up
+- 10. Guacamole Lite Prototype Pollution
+  - 10.1. Getting Started
+  - 10.2. Introduction to JavaScript Prototypes
+  - 10.3. Prototype Pollution Exploitation
+  - 10.4. EJS
+  - 10.5. Handlebars
+  - 10.6. Wrapping Up
+- 11. Dolibarr Eval Filter Bypass RCE
+  - 11.1. Getting Started
+  - 11.2. Overview of Dangerous Functions
+  - 11.3. Vulnerability Discovery
+  - 11.4. Bypassing the Security Filter to Trigger `eval`
+  - 11.5. Filter Bypass Revisited
+  - 11.6. Wrapping Up
+- 12. RudderStack SQL Injection and Coraza WAF Bypass
+  - 12.1. Getting Started
+  - 12.2. RudderStack SQL Injection Vulnerability
+  - 12.3. Bypassing a Web Application Firewall
+  - 12.4. Wrapping Up
+- 13. Conclusion
+  - 13.1. The Journey So Far
+  - 13.2. Exercises and Extra Miles
+  - 13.3. The Road Goes Ever On
+  - 13.4. Wrapping Up
+- 14. ATutor Authentication Bypass and RCE
+  - 14.1. Getting Started
+  - 14.2. Initial Vulnerability Discovery
+  - 14.3. A Brief Review of Blind SQL Injections
+  - 14.4. Digging Deeper
+  - 14.5. Data Exfiltration
+  - 14.6. Subverting ATutor Authentication
+  - 14.7. Authentication Gone Bad
+  - 14.8. Bypassing File Upload Restrictions
+  - 14.9. Gaining Remote Code Execution
+  - 14.10. Wrapping Up
+- 15. ATutor LMS Type-Juggling Vulnerability
+  - 15.1. Getting Started
+  - 15.2. PHP Loose and Strict Comparisons
+  - 15.3. PHP String Conversion to Numbers
+  - 15.4. Vulnerability Discovery
+  - 15.5. Attacking the Loose Comparison
+  - 15.6. Wrapping Up
+- 16. Bassmaster Node.js Arbitrary JavaScript Injection Vulnerability
+  - 16.1. Getting Started
+  - 16.2. The Bassmaster Plugin
+  - 16.3. Vulnerability Discovery
+  - 16.4. Triggering the Vulnerability
+  - 16.5. Obtaining a Reverse Shell
+  - 16.6. Wrapping Up
+- 17. Atmail Mail Server Appliance: From XSS to RCE
+  - 17.1. Overview
+  - 17.2. Session Hijacking
+  - 17.3. Session Riding
+  - 17.4. Gaining Remote Code Execution
+  - 17.5. Summary
