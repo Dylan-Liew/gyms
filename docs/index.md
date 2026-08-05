@@ -6,5 +6,5 @@ title: Gyms
 
 Choose a training path.
 
-- [OffSec](offsec/index.md)
-- [SANS](sans/index.md)
+- [OSCP](oscp/index.md)
+- [GXPN](gxpn/index.md)
