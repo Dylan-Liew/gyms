@@ -24,6 +24,7 @@ Use the same variable names throughout the notes so commands remain easy to
 adapt.
 
 ```bash
+# Define reusable target and callback variables before copying commands
 export IP='192.0.2.10'
 export PORT='80'
 export URL="http://$IP:$PORT"
@@ -63,3 +64,9 @@ than running a larger automated scan.
 --8<-- "docs/gyms/oscp/active-directory.md"
 
 --8<-- "docs/gyms/oscp/pivoting.md"
+
+## References
+
+- [Official PEN-200 syllabus](https://manage.offsec.com/app/uploads/2026/03/PEN-200_Syllabus.pdf)
+- [Official OSCP exam guide](https://help.offsec.com/hc/en-us/articles/360040165632-OSCP-Exam-Guide)
+- [Rai2en OSCP notes](https://github.com/Rai2en/OSCP-Notes)

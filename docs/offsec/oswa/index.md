@@ -1,3 +1,0 @@
-# OSWA
-
-No entries yet.

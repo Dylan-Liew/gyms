@@ -5,6 +5,7 @@
 Keep raw tool output separate from working notes and downloaded files.
 
 ```bash
+# Create a private workspace and record the terminal session
 mkdir -p "$IP"/{scans,loot,web,exploits}
 cd "$IP"
 date -Is | tee notes.md
@@ -17,6 +18,7 @@ Use `exit` to close the recorded terminal session. For parallel work, keep
 listeners, scans, web traffic, and notes in named terminal panes.
 
 ```bash
+# Start a named tmux session for parallel enumeration and listeners
 tmux new-session -s "$IP"
 tmux rename-window recon
 ```
@@ -38,6 +40,7 @@ Maintain four short lists while working:
 - Resolve discovered hostnames and virtual hosts locally.
 
 ```bash
+# Confirm the route, name resolution, and direct TCP reachability
 ip route get "$IP"
 getent hosts "$IP"
 timeout 3 bash -c "</dev/tcp/$IP/$PORT" && echo open
@@ -63,6 +66,7 @@ enumeration scripts.
 Capture banners and certificates independently when version detection is vague.
 
 ```bash
+# Capture raw service banners, TLS details, and HTTP behavior
 nc -nv "$IP" "$PORT"
 openssl s_client -connect "$IP:$PORT" -servername "$IP" </dev/null
 curl -vk --max-time 10 "$URL"
@@ -84,6 +88,7 @@ version range, required access, hard-coded addresses, callback settings, and
 expected side effects.
 
 ```bash
+# Find, copy, and inspect a public exploit before execution
 searchsploit '<product> <version>'
 searchsploit -w '<product> <version>'
 searchsploit -m <exploit-id-or-path>
@@ -106,6 +111,7 @@ Ask:
 
 ```bash
 # Linux
+# Capture the current identity, host, network, and process baseline
 id; hostname; uname -a
 ip addr; ip route; ss -lntup
 ps auxww
@@ -113,6 +119,7 @@ ps auxww
 
 ```powershell
 # Windows
+# Capture the current identity, host, network, and process baseline
 whoami /all
 hostname
 ipconfig /all
@@ -129,11 +136,13 @@ secrets, interfaces, routes, or sessions.
 
 ```bash
 # Compare the post-escalation Linux context
+# Look for environment, mount, or listener changes after escalation
 id; env | sort; findmnt; ss -lntup
 ```
 
 ```powershell
 # Compare the post-escalation Windows context
+# Look for privilege, share, and listener changes after escalation
 whoami /all
 Get-SmbConnection
 Get-NetTCPConnection -State Listen
@@ -148,3 +157,37 @@ Get-NetTCPConnection -State Listen
 - Inspect files already downloaded instead of collecting more data.
 - Confirm that an exploit matches the exact architecture and configuration.
 - Try the same hypothesis manually with fewer moving parts.
+
+## Exploit adaptation
+
+Treat public exploit code as a hypothesis. Before running it, identify transport,
+target version, architecture, authentication, hard-coded offsets, payload format,
+callback settings, and expected success signal.
+
+```bash
+# Preserve an original copy and locate assumptions that require adaptation
+cp exploit.py exploit.lab.py
+rg -n 'RHOST|RPORT|LHOST|LPORT|offset|target|payload|shellcode|sleep' exploit.lab.py
+diff -u exploit.py exploit.lab.py
+
+# Check Python syntax and trace a failing execution
+python -m py_compile exploit.lab.py
+python -m pdb exploit.lab.py
+
+# Observe network calls when source behavior is unclear
+strace -ff -s 2048 -e trace=network -o traces/exploit python exploit.lab.py
+```
+
+For Python 2 to 3 ports, review byte strings, socket sends, integer division,
+encoding, imports, exception syntax, and hexadecimal conversions explicitly.
+
+```bash
+# Generate a mechanical Python 3 preview, then inspect the diff manually
+2to3 -w -n exploit.lab.py
+python -m py_compile exploit.lab.py
+
+# Confirm payload architecture and forbidden bytes before delivery
+file payload.bin
+xxd -g 1 payload.bin | head
+python -c 'p=open("payload.bin","rb").read(); print(len(p), [hex(x) for x in (0,10,13) if bytes([x]) in p])'
+```

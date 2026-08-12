@@ -3,6 +3,7 @@
 ### Baseline
 
 ```powershell
+# Capture identity, OS, network, processes, drives, and Defender state
 whoami /all
 hostname
 systeminfo
@@ -23,6 +24,7 @@ installed software, running services, and listening ports.
 ### Token privileges
 
 ```powershell
+# Inspect token privileges, groups, and claims
 whoami /priv
 whoami /groups
 whoami /claims
@@ -36,6 +38,7 @@ communication mechanism.
 ### Services
 
 ```powershell
+# Enumerate service accounts and executable paths
 Get-CimInstance Win32_Service |
   Select-Object Name,StartName,State,PathName
 
@@ -53,6 +56,7 @@ For interesting services, check:
 - the account used to run the service.
 
 ```powershell
+# Check service and filesystem permissions for user-controlled paths
 sc.exe sdshow <service>
 icacls 'C:\Path\To\service.exe'
 Get-Acl 'C:\Path\To' | Format-List
@@ -63,6 +67,7 @@ accesschk.exe -uwdqs Users C:\
 ### Unquoted service paths
 
 ```powershell
+# Locate unquoted service paths containing spaces
 Get-CimInstance Win32_Service |
   Where-Object { $_.PathName -notmatch '^"' -and $_.PathName -match ' ' } |
   Select-Object Name,StartName,State,PathName
@@ -77,6 +82,7 @@ service can be started or will start predictably.
 ### Scheduled tasks and startup
 
 ```powershell
+# Enumerate scheduled task definitions, actions, and runtime information
 schtasks /query /fo LIST /v
 Get-ScheduledTask | Where-Object State -ne Disabled
 Get-CimInstance Win32_StartupCommand
@@ -87,6 +93,7 @@ schtasks /query /xml ONE /tn '<task-name>'
 Startup and autorun locations:
 
 ```powershell
+# Inspect common registry and WMI startup locations
 reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Run
 reg query HKCU\Software\Microsoft\Windows\CurrentVersion\Run
 Get-CimInstance Win32_StartupCommand | Format-List Name,Command,Location,User
@@ -98,6 +105,7 @@ permissions on every component of the execution path.
 ### AlwaysInstallElevated
 
 ```powershell
+# Check whether both AlwaysInstallElevated policy values are enabled
 reg query HKCU\Software\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
 reg query HKLM\Software\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
 ```
@@ -108,6 +116,7 @@ path.
 ### Credentials
 
 ```powershell
+# Search user and application files for saved credentials
 Get-Content (Get-PSReadLineOption).HistorySavePath
 cmdkey /list
 dir C:\Users\*\Desktop,C:\Users\*\Documents -Force -ErrorAction SilentlyContinue
@@ -118,6 +127,7 @@ Get-ChildItem C:\inetpub,C:\xampp,C:\ProgramData -Recurse -File -ErrorAction Sil
 ```
 
 ```cmd
+REM Search registry, unattended files, and configuration files for secrets
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
 reg query HKLM /f password /t REG_SZ /s
 reg query HKCU /f password /t REG_SZ /s
@@ -133,6 +143,7 @@ saved RDP files, application backups, and mapped shares.
 If the current context can read or save the required registry hives:
 
 ```powershell
+# Save registry hives and enumerate available shadow copies
 reg save HKLM\SAM C:\Windows\Temp\SAM
 reg save HKLM\SYSTEM C:\Windows\Temp\SYSTEM
 reg save HKLM\SECURITY C:\Windows\Temp\SECURITY
@@ -143,12 +154,14 @@ wmic shadowcopy get DeviceObject,InstallDate
 Process transferred copies offline:
 
 ```bash
+# Extract secrets from transferred registry hives on Kali
 impacket-secretsdump -sam SAM -system SYSTEM -security SECURITY LOCAL
 ```
 
 ### Installed software and patches
 
 ```powershell
+# Enumerate installed software and Windows updates
 Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*,
   HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* |
   Select-Object DisplayName,DisplayVersion,InstallLocation
@@ -164,6 +177,7 @@ exploit. Confirm architecture, build, patches, and prerequisites.
 ### Local groups and sessions
 
 ```powershell
+# Enumerate local users, groups, sessions, and network connections
 Get-LocalUser
 Get-LocalGroup
 Get-LocalGroupMember Administrators
@@ -178,6 +192,7 @@ net user
 ## Filesystem permissions
 
 ```powershell
+# Inspect permissions on a specific custom application directory
 icacls C:\Path\To\Directory
 Get-Acl C:\Path\To\Directory | Format-List
 Get-ChildItem C:\ProgramData,C:\inetpub -Recurse -ErrorAction SilentlyContinue |
@@ -191,6 +206,7 @@ ACLs for the entire operating system.
 ## Network and local services
 
 ```powershell
+# Map listening ports to processes, shares, and named pipes
 Get-NetTCPConnection -State Listen | Sort-Object LocalPort
 Get-Process -Id (Get-NetTCPConnection -State Listen).OwningProcess -ErrorAction SilentlyContinue
 Get-SmbShare
@@ -209,6 +225,7 @@ finding manually and prioritize paths where a privileged process consumes a
 user-controlled file, command, token, or credential.
 
 ```powershell
+# Run automated enumeration as a second pass
 .\winPEASx64.exe log=winpeas.out
 .\Seatbelt.exe -group=system
 Import-Module .\PowerUp.ps1

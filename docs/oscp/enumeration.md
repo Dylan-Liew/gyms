@@ -6,6 +6,7 @@ Start with a fast full-port SYN scan. Save normal, grepable, and XML output for
 later parsing.
 
 ```bash
+# Scan every TCP port quickly without relying on ping discovery
 sudo nmap -Pn -n -p- --min-rate 2000 --open "$IP" -oA scans/tcp-all
 ```
 
@@ -13,6 +14,7 @@ Use a TCP connect scan when raw sockets are unavailable or when scanning through
 a tunnel.
 
 ```bash
+# Use a TCP connect scan when SYN scanning is unavailable or tunneled
 nmap -Pn -n -sT -p- --open "$IP" -oA scans/tcp-connect
 ```
 
@@ -20,6 +22,7 @@ Extract the discovered ports and run focused default scripts and version
 detection.
 
 ```bash
+# Extract open ports and run focused scripts and version detection
 ports=$(awk -F'Ports: ' '/Ports:/{print $2}' scans/tcp-all.gnmap \
   | tr ',' '\n' | awk -F/ '$2 == "open" {gsub(/ /, "", $1); print $1}' \
   | paste -sd,)
@@ -30,6 +33,7 @@ Run an additional script category only against a justified service and review
 what the category will execute first.
 
 ```bash
+# Review safe scripts, then request exhaustive version probes
 nmap --script-help 'safe and discovery' | less
 sudo nmap -Pn -n -sV --version-all -p "$ports" "$IP" -oA scans/tcp-versions
 ```
@@ -43,6 +47,7 @@ Begin with common ports, then expand when the target suggests DNS, SNMP, NFS,
 TFTP, or IPsec.
 
 ```bash
+# Check common UDP services before expanding to a full UDP scan
 sudo nmap -Pn -n -sU --top-ports 50 --open "$IP" -oA scans/udp-top
 sudo nmap -Pn -n -sU -sV -p 53,69,111,123,137,161,500,4500 "$IP" -oA scans/udp-focus
 ```
@@ -50,6 +55,7 @@ sudo nmap -Pn -n -sU -sV -p 53,69,111,123,137,161,500,4500 "$IP" -oA scans/udp-f
 Validate likely services directly:
 
 ```bash
+# Validate likely UDP services with their native protocols
 dig @"$IP" version.bind chaos txt
 snmpwalk -v2c -c public -t 2 -r 1 "$IP" 1.3.6.1.2.1.1
 rpcinfo -p "$IP"
@@ -61,6 +67,7 @@ Nmap script to validate it.
 ### Quick network checks
 
 ```bash
+# Perform quick connectivity and application-response checks
 ping -c 2 "$IP"
 traceroute -n "$IP"
 nc -nv "$IP" "$PORT"
@@ -70,6 +77,7 @@ curl -kI --max-time 10 "$URL"
 For a directly attached lab network:
 
 ```bash
+# Discover live hosts on a directly attached lab network
 sudo arp-scan --localnet
 sudo nmap -sn -n 192.0.2.0/24 -oA scans/host-discovery
 ```
@@ -78,6 +86,7 @@ Check IPv6 when the target exposes an address or local enumeration reveals an
 IPv6 route.
 
 ```bash
+# Inspect IPv6 addressing and scan a confirmed IPv6 target
 ip -6 addr
 ip -6 route
 sudo nmap -6 -Pn -sV '<ipv6-address>'
@@ -95,6 +104,7 @@ Convert scan output into a short working table:
 Useful output conversions:
 
 ```bash
+# Convert and search saved scan output without rescanning the target
 xsltproc scans/tcp-services.xml -o scans/tcp-services.html
 rg -n 'open|Service Info|Subject Alternative Name' scans/
 grep '/open/' scans/tcp-all.gnmap

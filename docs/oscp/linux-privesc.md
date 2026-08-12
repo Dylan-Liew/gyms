@@ -6,6 +6,7 @@ reads, executes, imports, or modifies something controlled by the current user.
 ### Baseline
 
 ```bash
+# Capture identity, OS, users, network, mounts, processes, and sessions
 id
 uname -a
 cat /etc/os-release
@@ -29,6 +30,7 @@ available compilers or scripting runtimes.
 ### Sudo
 
 ```bash
+# Enumerate effective sudo rules and readable sudoers configuration
 sudo -l
 sudo -V | head
 sudo -ll
@@ -50,6 +52,7 @@ binary behaves the same under `sudo` as it does interactively.
 ### SUID and SGID
 
 ```bash
+# Find files with SUID or SGID privilege bits
 find / -perm -4000 -type f 2>/dev/null
 find / -perm -2000 -type f 2>/dev/null
 find / -perm /6000 -type f -exec ls -la {} \; 2>/dev/null
@@ -59,6 +62,7 @@ Prioritize unusual binaries and standard tools with shell, file-write, or comman
 execution features. Inspect custom binaries:
 
 ```bash
+# Inspect a custom privileged binary and its runtime behavior
 file /path/to/binary
 strings -a /path/to/binary | less
 ldd /path/to/binary
@@ -73,6 +77,7 @@ libraries loaded from controllable paths.
 ### Capabilities
 
 ```bash
+# Find executables with Linux capabilities
 getcap -r / 2>/dev/null
 getcap /usr/bin/* /usr/local/bin/* 2>/dev/null
 ```
@@ -84,6 +89,7 @@ what the binary can actually do.
 ### Scheduled work
 
 ```bash
+# Enumerate cron jobs and systemd timers that execute periodically
 cat /etc/crontab
 find /etc/cron* -maxdepth 2 -type f -ls 2>/dev/null
 systemctl list-timers --all
@@ -94,6 +100,7 @@ systemctl list-timers --all --no-pager
 Observe activity when the definition does not reveal the executed path:
 
 ```bash
+# Observe short-lived processes that may not appear in a process snapshot
 pspy64
 ```
 
@@ -104,6 +111,7 @@ useful.
 ### Services and sockets
 
 ```bash
+# Enumerate active services, listeners, sockets, and writable unit files
 systemctl list-units --type=service --state=running
 systemctl cat <service>
 ss -lntup
@@ -120,6 +128,7 @@ administrative services may cross the root boundary.
 ### Writable paths and PATH usage
 
 ```bash
+# Locate writable files, directories, PATH entries, and custom ACLs
 find / -writable -type d 2>/dev/null | grep -vE '^/(proc|sys|dev)'
 find / -writable -type f 2>/dev/null | grep -vE '^/(proc|sys|dev)'
 printf '%s\n' "$PATH" | tr ':' '\n'
@@ -136,6 +145,7 @@ without an absolute path and that a searched directory is controllable.
 ### Credentials and sensitive files
 
 ```bash
+# Search user and application locations for keys, backups, and credentials
 find /home /root -maxdepth 3 -type f \( -name '.*history' -o -name 'id_*' \
   -o -name '*.kdbx' \) -ls 2>/dev/null
 rg -n -i 'password|secret|token|credential' /var/www /opt /srv 2>/dev/null
@@ -153,6 +163,7 @@ process environments, and command-line arguments.
 ### NFS and containers
 
 ```bash
+# Inspect NFS exports, mounts, container sockets, and administrative groups
 cat /etc/exports 2>/dev/null
 mount
 ls -l /var/run/docker.sock 2>/dev/null
@@ -165,6 +176,7 @@ lxc list 2>/dev/null
 From Kali, validate NFS export behavior:
 
 ```bash
+# Validate exposed NFS exports remotely from Kali
 showmount -e "$IP"
 nmap -Pn -p111,2049 --script nfs-showmount,nfs-ls,nfs-statfs "$IP"
 ```
@@ -176,6 +188,7 @@ privileged container runtime.
 ### Kernel exploits: last resort
 
 ```bash
+# Record the exact kernel build, packages, and relevant configuration
 uname -a
 cat /proc/version
 dpkg -l 2>/dev/null | head
@@ -195,6 +208,7 @@ Review the output by trust boundary: credentials, sudo, SUID, services, schedule
 work, writable paths, containers, and kernel exposure.
 
 ```bash
+# Run automated tools as a second pass and preserve their output
 ./linpeas.sh -a | tee /tmp/linpeas.out
 ./lse.sh -l 1 | tee /tmp/lse.out
 ./pspy64 -pf -i 1000

