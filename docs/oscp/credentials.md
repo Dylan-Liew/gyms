@@ -1,8 +1,5 @@
 ## Credentials
 
-Treat credentials as relationships between an identity, a secret, a scope, and
-a source. A password without its domain or originating service is incomplete.
-
 ### Credential ledger
 
 | Domain/host | Username | Secret type | Source | Validated services |

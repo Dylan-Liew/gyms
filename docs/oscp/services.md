@@ -1,8 +1,5 @@
 ## Services
 
-Use this page after port discovery. Begin without credentials, repeat with every
-credential set recovered later, and record both readable and writable resources.
-
 ### FTP — 21
 
 ```bash

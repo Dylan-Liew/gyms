@@ -202,13 +202,3 @@ git log -p --all -- .env '*.config' '*.yml' '*.yaml'
 
 Validate dependency versions against the lockfile and actual configuration;
 product identification alone is not enough.
-
-### When stuck
-
-- Follow redirects manually and inspect every hostname.
-- Compare unauthenticated and authenticated responses.
-- Review JavaScript and API traffic for routes absent from the UI.
-- Try alternate HTTP methods and content types where the application supports
-  them.
-- Revisit downloaded backups and configuration files.
-- Confirm that a suspected vulnerability reaches the intended interpreter.

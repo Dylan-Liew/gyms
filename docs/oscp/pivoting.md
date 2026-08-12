@@ -1,8 +1,5 @@
 ## Pivoting
 
-Pivot only after documenting the route that is missing: source, destination,
-protocol, port, and the host that can reach both sides.
-
 ### Map the network
 
 #### Linux

@@ -1,8 +1,5 @@
 ## Active Directory
 
-Start with identity, DNS, and time. Many apparent Kerberos failures are actually
-name-resolution or clock problems.
-
 ### Establish context
 
 #### From Windows
@@ -263,12 +260,3 @@ kdestroy
 - Synchronize time before debugging tickets.
 - Match realm capitalization and domain syntax.
 - Clear stale tickets when changing identities.
-
-### When stuck
-
-- Re-run share and LDAP enumeration with every validated identity.
-- Inspect user descriptions, logon scripts, SYSVOL, and application shares.
-- Map local administrator access across hosts.
-- Correlate sessions with systems controlled by the current user.
-- Verify BloodHound edges manually.
-- Reassess DNS, time, and SPNs before abandoning a Kerberos path.

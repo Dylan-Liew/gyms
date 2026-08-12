@@ -231,12 +231,3 @@ user-controlled file, command, token, or credential.
 Import-Module .\PowerUp.ps1
 Invoke-AllChecks
 ```
-
-### When stuck
-
-- Re-check token privileges and group memberships.
-- Inspect non-Microsoft services and scheduled tasks first.
-- Test permissions on parent directories, not only the executable.
-- Look for credentials in application context and user history.
-- Examine localhost-only services and named pipes.
-- Re-enumerate after changing user or integrity level.

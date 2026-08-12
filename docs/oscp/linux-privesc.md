@@ -213,11 +213,3 @@ work, writable paths, containers, and kernel exposure.
 ./lse.sh -l 1 | tee /tmp/lse.out
 ./pspy64 -pf -i 1000
 ```
-
-### When stuck
-
-- Re-run enumeration after obtaining a new group or credential.
-- Inspect custom applications and services before standard system binaries.
-- Compare file ownership with the identity of the consuming process.
-- Monitor processes and filesystem activity over time.
-- Check local-only ports from the target itself.

