@@ -144,6 +144,9 @@ before starting Hydra.
 
 Avoid uncontrolled spraying. Check the password policy, use a narrow user list,
 limit attempts, and record which target and protocol validated each credential.
+Treat SSH spraying as a late step: first establish valid usernames and build a
+target-specific candidate list from recovered evidence. Prefer that small list
+over immediately pairing every user with `rockyou.txt`.
 
 ### Troubleshooting
 

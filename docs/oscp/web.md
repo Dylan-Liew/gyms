@@ -2,6 +2,10 @@
 
 ### Establish the application baseline
 
+Fingerprint the application from the terminal before browsing it. Start with
+WhatWeb and headers while the full port scan is still running, then use the
+browser through Burp when interaction or request manipulation becomes useful.
+
 ```bash
 # Fingerprint the web server, headers, methods, and initial response
 curl -kI "$URL"
@@ -31,6 +35,11 @@ Extract names from redirects and TLS certificates, add confirmed names to
 `/etc/hosts`, and test virtual hosts.
 
 ```bash
+# Add a confirmed hostname without relying on sudo shell redirection
+printf '%s\t%s\n' "$IP" 'example.local' | sudo tee -a /etc/hosts
+```
+
+```bash
 # Extract certificate names and fuzz virtual-host routing
 openssl s_client -connect "$IP:443" -servername example.local </dev/null 2>/dev/null \
   | openssl x509 -noout -subject -issuer -ext subjectAltName
@@ -49,6 +58,8 @@ Filter using a measured baseline response rather than copying an arbitrary size.
 
 ```bash
 # Discover directories and common backup or source-file extensions
+dirsearch -u "$URL" -o web/dirsearch.txt
+
 feroxbuster -u "$URL" -w /usr/share/seclists/Discovery/Web-Content/raft-medium-words.txt \
   -x php,asp,aspx,jsp,txt,bak,zip -o web/ferox.txt
 
@@ -65,6 +76,10 @@ nikto -host "$URL" -output web/nikto.txt
 Repeat discovery from authenticated areas and beneath interesting directories.
 Check `robots.txt`, `sitemap.xml`, backup extensions, exposed repositories,
 configuration files, and upload locations.
+
+Use Burp Proxy and Repeater for web attacks that depend on state, encoding,
+cookies, or multi-step requests. Keep a matching `curl` command where practical
+so the decisive request is reproducible in the notes.
 
 ### Parameter discovery
 

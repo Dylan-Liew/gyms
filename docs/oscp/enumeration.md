@@ -2,6 +2,15 @@
 
 ### TCP discovery
 
+Always establish the complete TCP attack surface. Start the full scan first and
+continue with web or service fingerprinting while it runs; do not let a quick
+scanner replace the saved Nmap result.
+
+```bash
+# Run default scripts and version detection across every open TCP port
+sudo nmap -Pn -n -sC -sV -p- --open -T4 -v "$IP" -oN scans/nmap_TCPscan.txt
+```
+
 ```bash
 # Scan every TCP port quickly without relying on ping discovery
 sudo nmap -Pn -n -p- --min-rate 2000 --open "$IP" -oA scans/tcp-all
@@ -26,12 +35,30 @@ nmap --script-help 'safe and discovery' | less
 sudo nmap -Pn -n -sV --version-all -p "$ports" "$IP" -oA scans/tcp-versions
 ```
 
+RustScan or Unicornscan can provide a second reading or accelerate discovery,
+but reconcile their results with Nmap before marking a port closed.
+
+```bash
+# Use supplemental scanners, then pass discovered ports back to Nmap
+rustscan -a "$IP" --ulimit 5000 -- -Pn -sC -sV
+sudo unicornscan -v -I -i tun0 -mT "$IP"
+```
+
 ### UDP discovery
 
 ```bash
 # Check common UDP services before expanding to a full UDP scan
 sudo nmap -Pn -n -sU --top-ports 50 --open "$IP" -oA scans/udp-top
 sudo nmap -Pn -n -sU -sV -p 53,69,111,123,137,161,500,4500 "$IP" -oA scans/udp-focus
+```
+
+```bash
+# Expand to all UDP ports when the focused scan does not explain the host
+sudo nmap -Pn -n -sU -sV -p- --open -v "$IP" -oA scans/udp-all
+
+# Enumerate a confirmed or likely SNMP service directly
+sudo nmap -Pn -n -sU -p161 \
+  --script snmp-info,snmp-interfaces,snmp-processes "$IP" -oA scans/snmp
 ```
 
 ```bash
@@ -49,6 +76,14 @@ ping -c 2 "$IP"
 traceroute -n "$IP"
 nc -nv "$IP" "$PORT"
 curl -kI --max-time 10 "$URL"
+```
+
+For an unfamiliar open port, compare a direct banner with a focused Nmap probe:
+
+```bash
+# Banner-grab and then run deeper detection only against the selected port
+nc -nv "$IP" "$PORT"
+sudo nmap -Pn -n -sV -A -p "$PORT" --script banner "$IP"
 ```
 
 ```bash
