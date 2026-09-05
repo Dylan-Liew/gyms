@@ -3,13 +3,12 @@
 ### Prepare the workspace
 
 ```bash
-# Create a private workspace and record the terminal session
+# Create a private workspace and initialize the notes
 mkdir -p "$IP"/{scans,loot,web,exploits}
 cd "$IP"
 date -Is | tee notes.md
 umask 077
 touch findings.md credentials.md attempts.md
-script -q -f terminal.log
 ```
 
 ### Connectivity
