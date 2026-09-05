@@ -5,12 +5,15 @@
 ```bash
 # Test FTP metadata and anonymous access with multiple clients
 ftp "$IP"
-nmap -Pn -p21 --script ftp-anon,ftp-syst "$IP"
+nmap -Pn -p21 --script ftp-anon,ftp-syst,ftp-bounce "$IP"
 curl -v "ftp://anonymous:anonymous@example.com@$IP/"
 ```
 
 Check anonymous access, directory listings, downloadable files, and whether an
 uploaded file becomes reachable through another service such as HTTP.
+Download and inspect all accessible files. Test uploads with a harmless marker
+first, then verify whether the FTP directory maps to a web-served path before
+considering an executable payload.
 
 ```text
 binary
@@ -37,6 +40,8 @@ nmap -Pn -p22 --script ssh-auth-methods,ssh2-enum-algos,ssh-hostkey "$IP"
 
 SSH usually becomes useful after discovering a username, password, or private
 key. Inspect key permissions and convert encrypted keys for offline recovery.
+Banner-grab it early, but leave password testing until enumeration produces a
+justified username and a small candidate list.
 
 ```bash
 # Convert an encrypted SSH private key for offline password recovery
@@ -44,6 +49,17 @@ chmod 600 id_rsa
 ssh2john id_rsa > id_rsa.hash
 john --wordlist=/usr/share/wordlists/rockyou.txt id_rsa.hash
 ```
+
+### Telnet — 23
+
+```bash
+# Capture Telnet metadata before attempting an interactive connection
+nmap -Pn -sV -p23 --script telnet-ntlm-info "$IP"
+telnet "$IP" 23
+```
+
+Treat online password checks as a credential-validation step, not initial
+enumeration; confirm the account list and lockout risk first.
 
 ### DNS — 53
 
@@ -67,8 +83,10 @@ enumerating web applications.
 # Enumerate SMTP capabilities and test whether usernames can be verified
 nc -nv "$IP" 25
 smtp-user-enum -M VRFY -U users.txt -t "$IP"
-nmap -Pn -p25 --script smtp-commands,smtp-enum-users "$IP"
+nmap -Pn -p25 --script smtp-commands,smtp-enum-users \
+  --script-args 'smtp-enum-users.methods={VRFY,EXPN}' "$IP"
 swaks --server "$IP" --quit-after EHLO
+telnet "$IP" 25
 ```
 
 Manual SMTP dialogue:
@@ -90,6 +108,7 @@ mail, and credentials stored in mail configuration.
 ```bash
 # Check SMB protocol settings and unauthenticated access
 nmap -Pn -p139,445 --script smb-protocols,smb2-security-mode,smb2-time "$IP"
+nmap -Pn -p139,445 --script smb-os-discovery "$IP"
 smbclient -N -L "//$IP"
 netexec smb "$IP" -u '' -p '' --shares
 rpcclient -N -U '' "$IP"
@@ -132,10 +151,16 @@ rpcclient -U "$DOMAIN/$USER%$PASS" "$IP"
 enumdomusers
 enumdomgroups
 querydispinfo
+srvinfo
 queryuser <RID>
 enumprinters
 netshareenumall
 ```
+
+Try null or guest access once on services that commonly expose it, including
+FTP and SMB/RPC. If it is denied, record that result and return only when a new
+credential or username changes the test. If it succeeds, mirror accessible
+files into the target workspace before analysing them.
 
 ### NFS — 111, 2049
 
@@ -255,6 +280,11 @@ Check authentication, server version, bound interfaces, persistence paths, and
 accessible keys before considering any write primitive.
 
 ### RDP and WinRM
+
+```bash
+# Record the RDP security and encryption configuration before authentication
+nmap -Pn -p3389 --script rdp-enum-encryption "$IP"
+```
 
 ```bash
 # Validate RDP and WinRM access with passwords or an NTLM hash

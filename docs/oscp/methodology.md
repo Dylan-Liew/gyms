@@ -11,6 +11,21 @@ umask 077
 touch findings.md credentials.md attempts.md
 ```
 
+Record every command and result as you work. Capture screenshots when a step
+proves access, code execution, privilege escalation, or a recovered credential;
+the same evidence supports the report and makes it possible to resume a stalled
+attack path later.
+
+### Timebox the work
+
+- Keep a visible timer for each target and attack path.
+- If a path stops producing evidence, record the last result and rotate to the
+  next exposed service instead of tunnelling on one idea.
+- Take short breaks away from the desk. Fatigue makes enumeration gaps and
+  transcription mistakes more likely.
+- Return to the attack-surface table after each break and choose the next action
+  from evidence, not memory.
+
 ### Connectivity
 
 ```bash
@@ -30,6 +45,10 @@ For every service, answer:
 5. Can any accessible resource be written or executed?
 6. Is the version actually vulnerable under this configuration?
 
+Note the hostname and any role-like name such as `web-srv1`, `mail-srv1`, or
+`dc01`. Names often reveal the intended function of a host and which services
+should correlate.
+
 ```bash
 # Capture raw service banners, TLS details, and HTTP behavior
 nc -nv "$IP" "$PORT"
@@ -47,6 +66,13 @@ searchsploit -m <exploit-id-or-path>
 file exploits/*
 rg -n 'RHOST|RPORT|LHOST|LPORT|target|payload' exploits/
 ```
+
+Search by exact product and version in Exploit-DB/Searchsploit, vendor
+advisories, and public repositories. A Metasploit module is evidence that a
+technique may have a public implementation, not proof that the target is
+vulnerable. Validate prerequisites and prefer an inspected standalone exploit.
+If an exam or lab limits Metasploit use, reserve it for a deliberate late-stage
+attempt and record where the allowance was consumed.
 
 ### Local enumeration
 
