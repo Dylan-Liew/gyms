@@ -34,16 +34,20 @@ ip route get "$IP"
 getent hosts "$IP"
 ```
 
-### Service enumeration
+```bash
+# Discover open TCP ports
+sudo nmap -Pn -n -p- --min-rate 2000 --open "$IP" -oA scans/tcp-all
+```
 
-For every service, answer:
+```bash
+# Scan discovered services
+ports=$(awk -F'Ports: ' '/Ports:/{print $2}' scans/tcp-all.gnmap \
+  | tr ',' '\n' | awk -F/ '$2 == "open" {gsub(/ /, "", $1); print $1}' \
+  | paste -sd,)
+sudo nmap -Pn -n -sC -sV -p "$ports" "$IP" -oA scans/tcp-services
+```
 
-1. What exact product or protocol is exposed?
-2. Does it allow anonymous or guest access?
-3. What names, shares, files, routes, or users can it reveal?
-4. Does it accept credentials already discovered elsewhere?
-5. Can any accessible resource be written or executed?
-6. Is the version actually vulnerable under this configuration?
+### Service banners
 
 Note the hostname and any role-like name such as `web-srv1`, `mail-srv1`, or
 `dc01`. Names often reveal the intended function of a host and which services
