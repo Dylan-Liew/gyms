@@ -24,16 +24,6 @@ proves access, code execution, privilege escalation, or a recovered credential;
 the same evidence supports the report and makes it possible to resume a stalled
 attack path later.
 
-### Timebox the work
-
-- Keep a visible timer for each target and attack path.
-- If a path stops producing evidence, record the last result and rotate to the
-  next exposed service instead of tunnelling on one idea.
-- Take short breaks away from the desk. Fatigue makes enumeration gaps and
-  transcription mistakes more likely.
-- Return to the attack-surface table after each break and choose the next action
-  from evidence, not memory.
-
 ### Connectivity
 
 ```bash
