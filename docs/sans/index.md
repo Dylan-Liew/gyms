@@ -6,4 +6,4 @@ title: SANS
 
 Certification notes and journey entries.
 
-- [GXPN](../gxpn/index.md)
+- [GCFA](../gcfa/index.md)
