@@ -1,5 +1,13 @@
 ## Methodology
 
+### Practice progression
+
+1. Practice repeatable enumeration and initial access on standalone hosts.
+2. Build Linux and Windows privilege-escalation fundamentals.
+3. Practice Active Directory chains: initial access, lateral movement, and
+   escalation.
+4. Repeat each workflow under time pressure using structured notes.
+
 ### Prepare the workspace
 
 ```bash

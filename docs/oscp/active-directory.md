@@ -1,5 +1,21 @@
 ## Active Directory
 
+### Study checklist
+
+- AS-REP roasting
+- Kerberoasting
+- NTLM relay
+- Pass-the-Hash (PtH)
+- Pass-the-Ticket (PtT)
+- Golden Ticket
+- Silver Ticket
+- DCSync
+- DCShadow
+- LAPS bypass
+- SAM account name spoofing
+- AdminSDHolder exploitation
+- RID hijacking
+
 ### Establish context
 
 #### From Windows
