@@ -4,42 +4,76 @@ title: OSCP
 
 # OSCP
 
-## Working variables
+## Variables
 
 ```bash
-# Define reusable target and callback variables before copying commands
-export IP='192.0.2.10'
+# Set the target address.
+export IP='192.168.50.20'
+# Set the target web port.
 export PORT='80'
+# Build the target URL.
 export URL="http://$IP:$PORT"
-export LHOST='192.0.2.20'
-export LPORT='443'
-export DOMAIN='example.local'
-export USER='username'
-export PASS='password'
+# Read the VPN callback address from tun0.
+export LHOST="$(ip -4 -o addr show tun0 | awk '{print $4}' | cut -d/ -f1)"
+# Set the callback port.
+export LPORT='4444'
+# Set the Active Directory domain.
+export DOMAIN='corp.com'
+# Set the target username.
+export RUSER='pete'
+# Set the target password.
+export PASS='Nexus123!'
 ```
 
---8<-- "docs/gyms/oscp/methodology.md"
+## Ports
 
---8<-- "docs/gyms/oscp/enumeration.md"
+| Port | Protocol | Service |
+| ---: | --- | --- |
+| 21 | TCP | FTP |
+| 22 | TCP | SSH |
+| 23 | TCP | Telnet |
+| 25, 465, 587 | TCP | SMTP |
+| 53 | TCP/UDP | DNS |
+| 69 | UDP | TFTP |
+| 80, 443 | TCP | HTTP/S |
+| 88 | TCP/UDP | Kerberos |
+| 110, 995 | TCP | POP3/S |
+| 111, 2049 | TCP/UDP | RPC/NFS |
+| 123 | UDP | NTP |
+| 135 | TCP | MSRPC |
+| 137 | UDP | NetBIOS |
+| 139, 445 | TCP | SMB |
+| 143, 993 | TCP | IMAP/S |
+| 161 | UDP | SNMP |
+| 389, 636 | TCP | LDAP/S |
+| 464 | TCP/UDP | Kerberos password change |
+| 1433 | TCP | MSSQL |
+| 3268, 3269 | TCP | Global Catalog |
+| 3306 | TCP | MySQL |
+| 3389 | TCP | RDP |
+| 5432 | TCP | PostgreSQL |
+| 5985, 5986 | TCP | WinRM |
+| 6379 | TCP | Redis |
 
---8<-- "docs/gyms/oscp/services.md"
+--8<-- "docs/gyms/oscp/scans/recon.md"
+--8<-- "docs/gyms/oscp/scans/ftp.md"
+--8<-- "docs/gyms/oscp/scans/ssh.md"
+--8<-- "docs/gyms/oscp/scans/dns.md"
+--8<-- "docs/gyms/oscp/scans/mail.md"
+--8<-- "docs/gyms/oscp/scans/smb.md"
+--8<-- "docs/gyms/oscp/scans/nfs.md"
+--8<-- "docs/gyms/oscp/scans/snmp.md"
+--8<-- "docs/gyms/oscp/scans/sql.md"
+--8<-- "docs/gyms/oscp/scans/remote.md"
 
---8<-- "docs/gyms/oscp/web.md"
+--8<-- "docs/gyms/oscp/exploits/search.md"
+--8<-- "docs/gyms/oscp/exploits/shells.md"
+--8<-- "docs/gyms/oscp/exploits/http.md"
+--8<-- "docs/gyms/oscp/exploits/linux.md"
+--8<-- "docs/gyms/oscp/exploits/windows.md"
+--8<-- "docs/gyms/oscp/exploits/ad.md"
+--8<-- "docs/gyms/oscp/exploits/tunnels.md"
+--8<-- "docs/gyms/oscp/exploits/msf.md"
 
---8<-- "docs/gyms/oscp/credentials.md"
-
---8<-- "docs/gyms/oscp/shells-transfers.md"
-
---8<-- "docs/gyms/oscp/linux-privesc.md"
-
---8<-- "docs/gyms/oscp/windows-privesc.md"
-
---8<-- "docs/gyms/oscp/active-directory.md"
-
---8<-- "docs/gyms/oscp/pivoting.md"
-
-## References
-
-- [Official PEN-200 syllabus](https://manage.offsec.com/app/uploads/2026/03/PEN-200_Syllabus.pdf)
-- [Official OSCP exam guide](https://help.offsec.com/hc/en-us/articles/360040165632-OSCP-Exam-Guide)
-- [Rai2en OSCP notes](https://github.com/Rai2en/OSCP-Notes)
+--8<-- "docs/gyms/oscp/loot/passwords.md"
+--8<-- "docs/gyms/oscp/loot/transfers.md"
