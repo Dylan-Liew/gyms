@@ -4,76 +4,67 @@ title: OSCP
 
 # OSCP
 
-## Variables
+Compact field notes for the exam. Set the variables once, follow the workflow,
+and open a command sheet only when a discovered service or attack path needs it.
+
+## Setup
 
 ```bash
-# Set the target address.
 export IP='192.168.50.20'
-# Set the target web port.
 export PORT='80'
-# Build the target URL.
 export URL="http://$IP:$PORT"
-# Read the VPN callback address from tun0.
 export LHOST="$(ip -4 -o addr show tun0 | awk '{print $4}' | cut -d/ -f1)"
-# Set the callback port.
 export LPORT='4444'
-# Set the Active Directory domain.
-export DOMAIN='corp.com'
-# Set the target username.
-export RUSER='pete'
-# Set the target password.
-export PASS='Nexus123!'
+mkdir -p "$IP"/{scans,loot,files}
+cd "$IP"
 ```
 
-## Ports
+Add credentials only when found:
 
-| Port | Protocol | Service |
-| ---: | --- | --- |
-| 21 | TCP | FTP |
-| 22 | TCP | SSH |
-| 23 | TCP | Telnet |
-| 25, 465, 587 | TCP | SMTP |
-| 53 | TCP/UDP | DNS |
-| 69 | UDP | TFTP |
-| 80, 443 | TCP | HTTP/S |
-| 88 | TCP/UDP | Kerberos |
-| 110, 995 | TCP | POP3/S |
-| 111, 2049 | TCP/UDP | RPC/NFS |
-| 123 | UDP | NTP |
-| 135 | TCP | MSRPC |
-| 137 | UDP | NetBIOS |
-| 139, 445 | TCP | SMB |
-| 143, 993 | TCP | IMAP/S |
-| 161 | UDP | SNMP |
-| 389, 636 | TCP | LDAP/S |
-| 464 | TCP/UDP | Kerberos password change |
-| 1433 | TCP | MSSQL |
-| 3268, 3269 | TCP | Global Catalog |
-| 3306 | TCP | MySQL |
-| 3389 | TCP | RDP |
-| 5432 | TCP | PostgreSQL |
-| 5985, 5986 | TCP | WinRM |
-| 6379 | TCP | Redis |
+```bash
+export RUSER='pete' PASS='Nexus123!' DOMAIN='corp.com'
+```
 
---8<-- "docs/gyms/oscp/scans/recon.md"
---8<-- "docs/gyms/oscp/scans/ftp.md"
---8<-- "docs/gyms/oscp/scans/ssh.md"
---8<-- "docs/gyms/oscp/scans/dns.md"
---8<-- "docs/gyms/oscp/scans/mail.md"
---8<-- "docs/gyms/oscp/scans/smb.md"
---8<-- "docs/gyms/oscp/scans/nfs.md"
---8<-- "docs/gyms/oscp/scans/snmp.md"
---8<-- "docs/gyms/oscp/scans/sql.md"
---8<-- "docs/gyms/oscp/scans/remote.md"
+## Workflow
 
---8<-- "docs/gyms/oscp/exploits/search.md"
---8<-- "docs/gyms/oscp/exploits/shells.md"
---8<-- "docs/gyms/oscp/exploits/http.md"
---8<-- "docs/gyms/oscp/exploits/linux.md"
---8<-- "docs/gyms/oscp/exploits/windows.md"
---8<-- "docs/gyms/oscp/exploits/ad.md"
---8<-- "docs/gyms/oscp/exploits/tunnels.md"
---8<-- "docs/gyms/oscp/exploits/msf.md"
+1. Run [recon](scans/recon.md); record every port, hostname, and technology.
+2. Open the matching service sheet and enumerate it fully.
+3. Search versions, defaults, exposed files, and reused credentials.
+4. Get a shell, stabilize it, and collect local context.
+5. Enumerate privilege escalation before trying exploits blindly.
+6. Reuse credentials and map trust for lateral movement.
+7. Save proof, commands, and screenshots as soon as they work.
 
---8<-- "docs/gyms/oscp/loot/passwords.md"
---8<-- "docs/gyms/oscp/loot/transfers.md"
+## Enumeration
+
+| Ports | Sheet |
+| --- | --- |
+| 21 | [FTP](scans/ftp.md) |
+| 22 | [SSH](scans/ssh.md) |
+| 25, 110, 143, 465, 587, 993, 995 | [Mail](scans/mail.md) |
+| 53 | [DNS](scans/dns.md) |
+| 80, 443 | [HTTP](exploits/http.md) |
+| 111, 2049 | [NFS](scans/nfs.md) |
+| 139, 445 | [SMB](scans/smb.md) |
+| 161/UDP | [SNMP](scans/snmp.md) |
+| 1433, 3306, 5432, 6379 | [Databases](scans/sql.md) |
+| 3389, 5985, 5986 | [RDP and WinRM](scans/remote.md) |
+| 53, 88, 135, 139, 389, 445, 464, 636, 3268 | [Active Directory](exploits/ad.md) |
+
+## Access and escalation
+
+- [Exploit search and compilation](exploits/search.md)
+- [Shells and listeners](exploits/shells.md)
+- [Linux privilege escalation](exploits/linux.md)
+- [Windows privilege escalation](exploits/windows.md)
+- [Tunnelling and pivoting](exploits/tunnels.md)
+- [Metasploit](exploits/msf.md)
+
+## Loot
+
+- [Passwords and hashes](loot/passwords.md)
+- [File transfers](loot/transfers.md)
+
+## Quick ports
+
+`21 FTP · 22 SSH · 25 SMTP · 53 DNS · 80/443 HTTP/S · 88 Kerberos · 110 POP3 · 111/2049 NFS · 135 MSRPC · 139/445 SMB · 143 IMAP · 161/UDP SNMP · 389/636 LDAP/S · 1433 MSSQL · 3306 MySQL · 3389 RDP · 5432 PostgreSQL · 5985/5986 WinRM · 6379 Redis`

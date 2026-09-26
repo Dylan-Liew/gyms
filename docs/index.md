@@ -4,15 +4,17 @@ title: Gyms
 
 # Gyms
 
-Choose a training path.
+Gotta catch them all
 
-- [OSCP](oscp/index.md)
-- [OSEP](osep/index.md)
-- [OSWP](oswp/index.md)
-- [OSWE](oswe/index.md)
-- [OSED](osed/index.md)
-- [OSDA](osda/index.md)
-- [OSIR](osir/index.md)
-- [OSTH](osth/index.md)
-- [OSAI](osai/index.md)
-- [GCFA](gcfa/index.md)
+| Title | Description |
+| --- | --- |
+| [OSCP](oscp/index.md) | Penetration testing |
+| [OSEP](osep/index.md) | Advanced penetration testing |
+| [OSWP](oswp/index.md) | Wireless security |
+| [OSWE](oswe/index.md) | Web security |
+| [OSED](osed/index.md) | Windows exploit development |
+| [OSDA](osda/index.md) | Security analysis |
+| [OSIR](osir/index.md) | Incident response |
+| [OSTH](osth/index.md) | Threat hunting |
+| [OSAI](osai/index.md) | AI security |
+| [GCFA](gcfa/index.md) | Digital forensics |

@@ -24,15 +24,6 @@ sudo nmap -Pn -n -sC -sV -p "$ports" "$IP" -oA services
 nmap -sT -A --top-ports 20 192.168.50.1-253 -oG sweep.txt
 ```
 
-Example:
-
-```text
-PORT    STATE SERVICE VERSION
-22/tcp  open  ssh     OpenSSH 8.9p1
-80/tcp  open  http    Apache httpd 2.4.52
-445/tcp open  smb     Samba smbd 4.15.13
-```
-
 ### UDP
 
 ```bash
